@@ -1,8 +1,3 @@
-# vue-questionnaire
-
-> 简易问卷系统,目前功能正在逐步完善中...
-
-> 由于本系统用于校内学生，所以在提交问卷时需要先查看用户的有效性（参与问卷调查的人员是可控的），如不需要此功能，可以自行修改代码。
 
 ## 功能
 1. 创建问卷、删除问卷、预览问卷、编辑问卷截止时间
@@ -13,9 +8,11 @@
 
 ## TODO
 1. 编辑问卷（未发布状态）
-2. 查看问题选项所选人员信息（姓名、班级）
-3. 修改用户已填写的选项
+2. 修改用户已填写的选项
 
+1、进入/html/dxz/vue-questionnaire/api/application/config
+2、cp database.php.bak database.php
+3、将database.php 按需填写正确
 ## 安装
 
 ``` bash
@@ -48,14 +45,3 @@ npm run build
 
 CI框架数据库连接配置信息请先设置。
 
-## 打赏
-如果我的付出能够帮助到你，我也乐于接受你的帮助，小小的赞赏是我们持续进步的动力。
-
-
-头像 | 昵称 | 金额
----|---|---
-![](https://avatars0.githubusercontent.com/u/29153603?s=60&v=4) | [Little Mo](https://github.com/one-mo) | ￥50.00
-![](https://avatars1.githubusercontent.com/u/10943213?s=60&v=4) | [mike](https://github.com/zhezhe168) | ￥400.00
-
-![支付宝支付](https://blog.52admin.net/wp-content/uploads/2017/09/alipay.png)
-![微信支付](https://blog.52admin.net/wp-content/uploads/2017/09/wechat.png)
