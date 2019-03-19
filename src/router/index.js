@@ -8,7 +8,7 @@ const List = () => import('@/views/list/list')
 const Edit = () => import('@/views/edit/edit')
 const View = () => import('@/views/view/view')
 const User = () => import('@/views/user/user')
-const ChangePwd = () => import('@/views/admin/changepwd')
+const ChangePwd = () => import('@/views/admin/changePwd')
 
 const Statis = () => import('@/views/statis/statis')
 const Result = () => import('@/views/statis/result')
