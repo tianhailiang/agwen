@@ -30,7 +30,7 @@ module.exports = {
     // 解决跨域问题
     proxyTable: {
       '/api': {
-        target: 'http://localhost:8888/vue-questionnaire/',
+        target: 'http://192.168.201.113:8889/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'
