@@ -123,6 +123,26 @@ class User_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    // 批量上传,新增用户
+    public function addUser($data)
+    {
+
+        $insert_data = array(
+            'u_major' => $data[0],
+            'u_name' => $data[1],
+            'u_sex' => $data[2] == '男' ? 0 : 1,
+            'u_class' => $data[3],
+            'u_number' => $data[4],
+            'u_birthday' => $data[5],
+            'u_nation' => $data[6],
+            'u_identity' => $data[7],
+            'u_password' => sha1($data[4])
+        );
+
+        $this->db->insert('users', $insert_data);
+        return $this->db->affected_rows();
+    }
+
     // 删除用户
     public function del_user()
     {
@@ -146,7 +166,7 @@ class User_model extends CI_Model
     }
 
     // 获取用户ID
-    public function get_user_id()
+    public function get_user_id_old()
     {
         $name = json_decode($this->input->raw_input_stream, true)['name'];
         $identity = json_decode($this->input->raw_input_stream, true)['identity'];
@@ -154,7 +174,8 @@ class User_model extends CI_Model
 
         $query = $this->db->get_where('users', array('u_name' => $name, 'u_identity' => $identity));
         $row = $query->row_array();
-        if (count($row) > 0) {
+
+        if ($row&&count($row) > 0) {
             // 数据库查找该用户
             $query_naire = $this->db->get_where('result', array('n_id' => $nId, 'u_id' => $row["u_id"]));
             $row_naire = $query_naire->num_rows();
@@ -167,6 +188,54 @@ class User_model extends CI_Model
             return array('err' => 0, "data" => $data);
         } else {
             return array('err' => 1, "data" => "用户不存在");
+        }
+    }
+
+
+    // 获取用户ID
+    public function get_user_id()
+    {
+        $name = json_decode($this->input->raw_input_stream, true)['name'];
+        if (!$name){
+            $sourceName = $name;
+            $name = "匿名用户".mt_rand(1,1000).uniqid();
+        }
+        $identity = json_decode($this->input->raw_input_stream, true)['identity'];
+        //$nId = json_decode($this->input->raw_input_stream, true)['n_id'];
+
+        $query = $this->db->get_where('users', array('u_name' => $name, 'u_identity' => $identity));
+        $row = $query->row_array();
+
+        if ($row&&count($row) > 0) {
+            // 数据库查找该用户
+          //  $query_naire = $this->db->get_where('result', array('n_id' => $nId, 'u_id' => $row["u_id"]));
+            //$row_naire = $query_naire->num_rows();
+            $data = array(
+                "u_id" => $row["u_id"],
+                "name" => $row["u_name"],
+               // "isFinished" => $row_naire > 0
+            );
+
+            return array('err' => 0, "data" => $data);
+        } else {
+
+            $data=[];
+                $insert_data = array(
+                    'u_major' => '',
+                    'u_name' => $name,
+                    'u_sex' => 0,
+                    'u_class' => '',
+                    'u_number' => '',
+                    'u_birthday' => '',
+                    'u_nation' => '',
+                    'u_identity' => $identity,
+                    'u_password' => sha1('')
+                );
+          $this->db->insert('users', $insert_data);
+            $u_id=   $this->db->insert_id();
+            if(isset($sourceName)&&!$sourceName)$name="匿名用户";
+            return array('err' => 0, "data" => ['u_id'=>$u_id,'name'=>$name]);
+                // return array('err' => 1, "data" => "用户不存在");
         }
     }
 

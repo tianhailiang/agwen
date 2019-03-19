@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="footer">
-      <p>Timu蜗壳工作室</p>
+      <p>金吉列大学长</p>
     </div>
   </div>
   </div>
