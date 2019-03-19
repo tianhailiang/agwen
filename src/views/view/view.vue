@@ -29,12 +29,12 @@
         <div class="user-info">
           <Alert v-show="!isLogin">在填写表单之前，请先填写用户信息。</Alert>
           <Form ref="userInfo" :model="userInfo" :rules="userInfoRule" inline>
-            <Form-item prop="name">
-              <Input v-model="userInfo.name" placeholder="请输入姓名"></Input>
+            <Form-item prop="phoneNumber">
+              <Input v-model="userInfo.phoneNumber" placeholder="请输入手机号"></Input>
             </Form-item>
-            <Form-item prop="identity">
+            <!-- <Form-item prop="identity">
               <Input v-model="userInfo.identity" placeholder="请输入身份证号"></Input>
-            </Form-item>
+            </Form-item> -->
             <Form-item>
               <Button type="primary" @click="handleSubmit('userInfo')">点击确认</Button>
             </Form-item>
@@ -75,7 +75,8 @@
         userId: 0,
         userInfo: {
           name: '',
-          identity: ''
+          identity: '',
+          phoneNumber: null
         },
         userInfoRule: {
           name: [
@@ -84,6 +85,10 @@
           identity: [
             {required: true, message: '请填写身份证', trigger: 'blur'},
             {type: 'string', max: 18, min: 18, message: '身份证长度不正确', trigger: 'blur'}
+          ],
+          phoneNumber: [
+            {required: true, message: '请填写手机号', trigger: 'blur'},
+            {type: 'string', max: 11, min: 11, message: '手机号长度不正确', trigger: 'blur'}
           ]
         }
       }
@@ -94,14 +99,12 @@
       }
     },
     watch: {
-      // 如果路由有变化，会再次执行该方法
       '$route': 'fetchData'
     },
     methods: {
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-// 查找用户，返回用户id
             this.$http.post('/user/getId', {
               n_id: this.naire.n_id,
               name: this.userInfo.name,
@@ -139,7 +142,7 @@
                 this.$Message.error('用户登录失败，请重试')
               })
           } else {
-            this.$Message.error('请先填写用户信息!')
+            this.$Message.error('请先填写手机号!')
           }
         })
       },
@@ -150,7 +153,6 @@
         })
       },
       fetchData () {
-        console.log(this.$route.params.id)
         this.$store.dispatch('getNaire', {
           n_id: this.$route.params.id
         }).then((response) => {

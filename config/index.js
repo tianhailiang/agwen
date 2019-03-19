@@ -30,11 +30,7 @@ module.exports = {
     // 解决跨域问题
     proxyTable: {
       '/api': {
-<<<<<<< HEAD
         target: 'http://192.168.201.113:8889/',
-=======
-        target: 'http://192.168.201.113:8888/',
->>>>>>> 06e0259794e4b753585200b5df7db85ec4671bd0
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'

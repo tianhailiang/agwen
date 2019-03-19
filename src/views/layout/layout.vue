@@ -63,12 +63,12 @@
             text: '新建问卷',
             icon: 'android-create'
           },
-          {
-            to: '/platform/user',
-            name: '/platform/user',
-            text: '用户管理',
-            icon: 'person'
-          },
+          // {
+          //   to: '/platform/user',
+          //   name: '/platform/user',
+          //   text: '用户管理',
+          //   icon: 'person'
+          // },
           {
             to: '/platform/admin',
             name: '/platform/admin',
