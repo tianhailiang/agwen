@@ -331,10 +331,10 @@
   }
 
   .view-layout .header h1 {
-    /*width: 500px;*/
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    color: #e67e22;
   }
 
   .view-layout .content {
