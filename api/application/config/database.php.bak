@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.201.113',
-	'username' => 'root',
-	'password' => 'admin123',
+	'hostname' => '数据库地址',
+	'username' => '用户名',
+	'password' => '密码',
 	'database' => 'questionare',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
