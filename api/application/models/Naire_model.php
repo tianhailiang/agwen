@@ -94,7 +94,7 @@ class Naire_model extends CI_Model
     // 获取问卷列表
     public function get_naire_list()
     {
-        $query = $this->db->get('naire');
+        $query = $this->db->order_by('n_id desc')->get('naire');
         if (!$query) {
             $err = 1;
         } else {
