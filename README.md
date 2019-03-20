@@ -16,15 +16,15 @@
     
 ###### 4、配置node    
 
-####安装依赖
-npm install
+     安装依赖
+    npm install
 
-####为生产环境打包成压缩版本
-npm run build
+     为生产环境打包成压缩版本
+    npm run build
 
-启动
-nohup npm run dev &
+    启动
+    nohup npm run dev &
 
-完成后通知部署需求人员
+###### 5、 完成后通知相关人员
 
 
