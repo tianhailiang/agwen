@@ -2,7 +2,7 @@
 ##### 1、数据库操作
         1.1  创建数据库，questionare 
         1.2、将本项目根目录下install.sql 导入数据库中，
-#####2、进入api目录下application/config目录下
+##### 2、进入api目录下application/config目录下
 
  cp database.php.bak  database.php
  将里面的配置 根据环境修改为正确配置
