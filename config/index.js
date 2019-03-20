@@ -30,10 +30,10 @@ module.exports = {
     // 解决跨域问题
     proxyTable: {
       '/api': {
-        target: 'http://192.168.201.113:8889/',
+        target: 'http://127.0.0.1:8888/',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
+          '^/api': '/'
         }
       }
     },
