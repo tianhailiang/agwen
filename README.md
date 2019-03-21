@@ -1,5 +1,18 @@
 
 #####1、将本项目根目录下install.sql 导入数据库中
+#####1.1  执行sql
+    
+
+CREATE TABLE `questionare`.`user_question_relation` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uid` INT NOT NULL COMMENT '用户uid',
+  `nid` INT NOT NULL COMMENT '问卷id',
+  `c_time` DATETIME NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`));
+  ALTER TABLE `questionare`.`user_question_relation` 
+  CHANGE COLUMN `ctime` `ctime` DATETIME NOT NULL DEFAULT current_timestamp COMMENT '创建时间' ;
+
+
 #####2、进入api目录下application/config目录下
  cp database.php.bak  database.php
  将里面的配置 根据环境修改为正确配置
