@@ -124,8 +124,8 @@
         position: absolute;
         top: 10px;
         left: 30px;
-        width: 250px;
-        height: 75px;
+        width: 180px;
+        height: 61px;
         background: url("../../assets/logo.png") no-repeat center;
         background-size: cover;
     }
