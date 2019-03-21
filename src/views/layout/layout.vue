@@ -3,7 +3,7 @@
     <Row type="flex">
       <i-col :span="5" class="layout-menu-left">
         <Menu :active-name="defaultActive" theme="dark" width="auto">
-          <div class="layout-logo-left">微型问卷系统</div>
+          <div class="layout-logo-left">JJL问卷系统</div>
           <router-link v-for="(item, index) in navList" :to="item.to" :key="index">
             <Menu-item :name="item.name">
               <Icon :type="item.icon"></Icon>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="layout-copy">
-          2009-2016 &copy; Timuwork
+          2019 &copy; 金吉列大学长
         </div>
       </i-col>
     </Row>
