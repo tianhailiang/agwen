@@ -7,6 +7,7 @@ import Layout from '@/views/layout/layout'
 const List = () => import('@/views/list/list')
 const Edit = () => import('@/views/edit/edit')
 const View = () => import('@/views/view/view')
+const preView = () => import('@/views/view/preview')
 const User = () => import('@/views/user/user')
 const ChangePwd = () => import('@/views/admin/changePwd')
 
@@ -41,6 +42,11 @@ let router = new Router({
       path: '/view/:id',
       name: 'View',
       component: View
+    },
+    {
+      path: '/preview/:id',
+      name: 'preView',
+      component: preView
     },
     {
       path: '/platform',

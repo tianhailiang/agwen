@@ -6,7 +6,6 @@ import vm from '@/main'
 
 // questionList
 export const getNaire = ({commit, state}, data) => {
-  console.log('commit REQUEST_QUESTION_LIST')
   return vm.$http.post('/naire/detail', {
     n_id: data.n_id
   })
@@ -17,35 +16,28 @@ export const createNaire = ({commit, state}, data) => {
     naire: data
   })
 }
+// 保存问卷
 export const saveNewNaire = ({commit, state}, data) => {
-  // const params = new URLSearchParams()
-  // params.append('naire', JSON.stringify(state.naire))
-  // params.append('status', state.status)
   return vm.$http.post('/naire/save', {
     naire: state.naire,
     status: state.status
   })
 }
-
 // 新增问题
 export const addQuestion = ({commit, state}, data) => {
   commit(types.ADD_NEW_QUESTION, {
     topic: data
   })
 }
-
 export const delQuestion = ({commit, state}, data) => {
   commit(types.DEL_QUESTION, data)
 }
-
 export const delOption = ({commit, state}, data) => {
   commit(types.DEL_OPTION, data)
 }
-
 export const changeStatus = ({commit, state}, data) => {
   commit(types.CHANGE_STATUS, data)
 }
-
 export const changeNaireStatus = ({commit, state}, data) => {
   commit(types.CHANGE_NAIRE_STATUS, data)
 }
@@ -56,7 +48,6 @@ export const login = ({commit}, data) => {
     token: data.token
   })
 }
-
 export const logout = ({commit}) => {
   commit(types.LOG_OUT)
 }
