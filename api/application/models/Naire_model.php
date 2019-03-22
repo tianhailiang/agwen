@@ -34,7 +34,7 @@ class Naire_model extends CI_Model
             return array("err" => 1, "data" => "未获取到相应问卷");
         }
         $result = array(
-            "n_id" => $naire[0]["n_id"],
+            "n_id" => intval($naire[0]["n_id"]),
             "title" => $naire[0]["n_title"],
             "n_create_time" => $naire[0]["n_create_time"],
             "deadline" => $naire[0]["n_deadline"],
@@ -47,7 +47,7 @@ class Naire_model extends CI_Model
             foreach ($options as $optionitem => $optionval) {
                 if ($questionval['q_id'] == $optionval['q_id']) {
                     $temp[] = array(
-                        "o_id" => $optionval['o_id'],
+                        "o_id" => intval($optionval['o_id']),
                         "content" => $optionval['o_value'],
                         "isAddition" => $optionval['o_isaddtion'] == "1" ? true : false
                     );
@@ -55,7 +55,7 @@ class Naire_model extends CI_Model
             }
             if ($questionval["q_type"] == '单选') {
                 $result['topic'][] = array(
-                    "q_id" => $questionval["q_id"],
+                    "q_id" => intval($questionval["q_id"]),
                     "question" => $questionval["q_content"],
                     "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
                     "type" => $questionval["q_type"],
@@ -66,7 +66,7 @@ class Naire_model extends CI_Model
                 );
             } else if ($questionval["q_type"] == '多选') {
                 $result['topic'][] = array(
-                    "q_id" => $questionval["q_id"],
+                    "q_id" => intval($questionval["q_id"]),
                     "question" => $questionval["q_content"],
                     "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
                     "type" => $questionval["q_type"],
@@ -77,7 +77,7 @@ class Naire_model extends CI_Model
                 );
             } else if ($questionval["q_type"] == '文本') {
                 $result['topic'][] = array(
-                    "q_id" => $questionval["q_id"],
+                    "q_id" => intval($questionval["q_id"]),
                     "question" => $questionval["q_content"],
                     "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
                     "type" => $questionval["q_type"],
