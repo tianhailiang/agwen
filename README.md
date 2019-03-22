@@ -11,7 +11,7 @@
               `c_time` DATETIME NOT NULL COMMENT '创建时间',
               PRIMARY KEY (`id`));
               ALTER TABLE `questionare`.`user_question_relation` 
-              CHANGE COLUMN `ctime` `ctime` DATETIME NOT NULL DEFAULT current_timestamp COMMENT '创建时间' ;
+              CHANGE COLUMN `c_time` `c_time` DATETIME NOT NULL DEFAULT current_timestamp COMMENT '创建时间' ;
             
 
 ##### 2、进入api目录下application/config目录下
