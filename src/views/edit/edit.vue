@@ -9,7 +9,7 @@
             placeholder="问卷名"></Input>
         </Form-item>
         <Form-item label="问卷介绍">
-          <Input v-model="textarea"
+          <Input v-model="intro"
             @on-change="updateIntro"
             type="textarea"
             :autosize="{minRows:8 ,maxRows: 10}"
@@ -29,7 +29,8 @@
           <Date-picker type="datetime" placeholder="截止日期"
             v-model="deadline"
             :editable="false" placement="right-end"
-            :options="dateOption">
+            :options="dateOption"
+            format>
           </Date-picker>
         </Col>
         <Col span="12">
@@ -170,7 +171,7 @@
 </template>
 
 <script>
-  import questionList from '@/components/common/questionList/questionList'
+  import questionList from '@/components/common/questionList/editQuestionList'
 
   export default {
     data () {
@@ -188,8 +189,7 @@
           disabledDate (date) {
             return date && date.valueOf() < Date.now() - 86400000
           }
-        },
-        textarea: ''
+        }
       }
     },
     computed: {
@@ -206,8 +206,7 @@
       },
       intro: {
         get () {
-          this.textarea = this.$store.getters.naire.intro
-          return this.$store.getters.intro
+          return this.$store.getters.naire.intro
         },
         set (value) {
           this.$store.commit('UPDATE_INTRO', value)
@@ -431,7 +430,6 @@
       saveNaire (message) {
         let _axios = this.$store.dispatch('saveNewQuestionnaire')
         _axios.then((response) => {
-          console.log(response.data)
           if (response.data.err === 0) {
             this.$Message.success(response.data.data)
             this.$router.push('/platform/list')

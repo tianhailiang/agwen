@@ -51,5 +51,10 @@ export default {
     state.isAdmin = false
     localStorage.removeItem('JWT_TOKEN')
     localStorage.removeItem('USER_NAME')
+  },
+  [types.updateMessage] (state, data) {
+    console.log('naire topic前', state.naire.topic)
+    state.naire.topic[data.index] = data.value
+    console.log('naire topic后', state.naire.topic)
   }
 }

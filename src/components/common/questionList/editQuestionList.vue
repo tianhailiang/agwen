@@ -18,7 +18,8 @@
               <Radio-group v-model="topic.selectContent" vertical style="width: 100%;">
                 <Radio :label="option.o_id" v-for="(option, opIndex) in topic.options" :disabled="isPreview"
                       class="option-item" :key="option.o_id">
-                  <span>{{option.content}}</span>
+                  <input :value="option.content" style="width: auto;padding-left: 10px;"
+                    @input="updateMessage(opIndex, $event)">
                   <Input v-model="topic.additional"
                         placeholder="请输入理由"
                         style="width: 300px"
@@ -38,7 +39,8 @@
                   v-for="(option, opIndex) in topic.options"
                   :disabled="isPreview"
                   class="option-item" :key="option.o_id">
-                  <span>{{option.content}}</span>
+                  <!-- <span>{{option.content}}</span> -->
+                  <!-- <Input v-model="message" style="width: auto;"></Input> -->
                   <div class="option-action" v-show="isPreview" @click="delOption(index, opIndex)">
                     <Icon type="close" size="16"></Icon>
                   </div>
@@ -51,8 +53,6 @@
             </div>
           </div>
         </Col>
-        <div class="edit-btn">编辑</div>
-        <div class="edit-btn" style="color:red;">删除</div>
       </Row>
       <div class="question-btns">
         <slot></slot>
@@ -73,9 +73,16 @@
           index: index,
           opIndex: opIndex
         })
+      },
+      updateMessage (index, e) {
+        this.$store.commit('updateMessage', {
+          index: index,
+          value: e.target.value
+        })
       }
     },
     created () {
+      // console.log(this.$store.getters.naire) // []
     }
   }
 </script>
