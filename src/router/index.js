@@ -68,7 +68,7 @@ let router = new Router({
         },
         {
           path: 'edit/:id',
-          name: 'Edit Detail',
+          name: 'EditDetail',
           component: Edit,
           meta: {requiresAuth: true}
         },

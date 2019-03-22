@@ -202,6 +202,7 @@
                           </i-button>
                           <Dropdown-menu slot="list">
                               <Dropdown-item><span @click="preview(${row.n_id})">预览问卷</span></Dropdown-item>
+                              <Dropdown-item><span @click="editview(${row.n_id})">编辑问卷</span></Dropdown-item>
                               <Dropdown-item><span @click="getURL(${row.n_id})">复制地址</span></Dropdown-item>
                               <Dropdown-item><span @click="submitStatis(${row.n_id}, ${index})">查看回收情况</span></Dropdown-item>
                               <Dropdown-item divided><span  @click="changeTime(${row.n_deadline}, ${row.n_id})">编辑截止时间</span></Dropdown-item>
@@ -259,6 +260,9 @@
       // 问卷预览
       preview (nid) {
         window.open(window.location.origin + '/#/view/' + nid)
+      },
+      editview (nid) {
+        this.$router.push({name: 'EditDetail', params: {id: nid}})
       },
       // 复制问卷地址
       getURL (nid) {
