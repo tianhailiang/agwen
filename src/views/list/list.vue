@@ -1,78 +1,78 @@
 <template>
-    <div class="naire-list">
-        <Row class="naire-btn">
-            <Col span="24">
-            <Button type="primary" @click="newNaire">新建问卷</Button>
-            </Col>
-        </Row>
-        <Spin v-if="loading">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>数据加载中...</div>
-        </Spin>
-        <Table border :context="self" :columns="columns7" :data="naireList" v-if="!loading"></Table>
-        <!-- 复制地址 -->
-        <Modal v-model="showURL" title="复制地址">
-            <Row>
-                <Col span="18">
-                <Input v-model="url" ref="copyURL" id="url" :autofocus="true" :readonly="true"></Input>
-                </Col>
-                <Col span="4" offset="1">
-                <Button class="copyboard" data-clipboard-target="#url" @click="handleCopy">复制</Button>
-                </Col>
-            </Row>
-            <Alert style="margin-top: 20px">如无法使用上方复制按钮，请选中内容后，使用 Ctrl + C 复制。也可扫描下方二维码或右键保存二维码进行访问。</Alert>
-            <div class="qrcode-wrapper">
-                <div id="qrcode" ref="qrcode"></div>
-            </div>
-        </Modal>
-        <!-- 修改截止时间 -->
-        <Modal v-model="updateTime" title="修改截止时间" @on-ok="submitChangeTime">
-            <Date-picker type="datetime" placeholder="截止日期"
-                         v-model="deadline"
-                         :editable="false" placement="bottom"
-                         :options="dateOption">
-            </Date-picker>
-        </Modal>
-        <!-- 查看回收情况 -->
-        <Modal
-                v-model="submitStatisModel"
-                title="查看回收情况"
-                :styles="{top: '40px'}"
-                width="800">
-            <Form :model="searchForm" inline>
-                <Form-item prop="user" style="width: 150px;">
-                    <Select v-model="searchForm.status" placeholder="请选择状态">
-                        <Option value="-1">全部</Option>
-                        <Option value="1">已完成</Option>
-                        <Option value="0">未完成</Option>
-                    </Select>
-                </Form-item>
-                <Form-item prop="password" style="width: 250px;">
-                    <Select v-model="searchForm.u_class" placeholder="请选择班级">
-                        <Option value="all">全部</Option>
-                        <Option v-if="classList.length > 0" v-for="(item, index) in classList" :value="item.u_class"
-                                :key="index">
-                            {{ item.u_class }}
-                        </Option>
-                    </Select>
-                </Form-item>
-                <Form-item>
-                    <Button type="primary" @click="handleSubmit">检索</Button>
-                </Form-item>
-            </Form>
-            <Spin v-if="submitStatisLoading">
-                <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-                <div>数据加载中...</div>
-            </Spin>
-            <Table border :context="self" :columns="submitStatisColumns" :data="submitStatisData"
-                   v-if="!submitStatisLoading"></Table>
-            <div style="margin: 10px;overflow: hidden">
-                <div style="float: right;" v-if="!submitStatisLoading">
-                    <Page :total="total" :current="currentPage" :page-size="pageSize" @on-change="changePage"></Page>
-                </div>
-            </div>
-        </Modal>
-    </div>
+  <div class="naire-list">
+    <Row class="naire-btn">
+      <Col span="24">
+      <Button type="primary" @click="newNaire">新建问卷</Button>
+      </Col>
+    </Row>
+    <Spin v-if="loading">
+        <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+        <div>数据加载中...</div>
+    </Spin>
+    <Table border :context="self" :columns="columns7" :data="naireList" v-if="!loading"></Table>
+    <!-- 复制地址 -->
+    <Modal v-model="showURL" title="复制地址">
+      <Row>
+        <Col span="18">
+        <Input v-model="url" ref="copyURL" id="url" :autofocus="true" :readonly="true"></Input>
+        </Col>
+        <Col span="4" offset="1">
+        <Button class="copyboard" data-clipboard-target="#url" @click="handleCopy">复制</Button>
+        </Col>
+      </Row>
+      <Alert style="margin-top: 20px">如无法使用上方复制按钮，请选中内容后，使用 Ctrl + C 复制。也可扫描下方二维码或右键保存二维码进行访问。</Alert>
+      <div class="qrcode-wrapper">
+        <div id="qrcode" ref="qrcode"></div>
+      </div>
+    </Modal>
+    <!-- 修改截止时间 -->
+    <Modal v-model="updateTime" title="修改截止时间" @on-ok="submitChangeTime">
+      <Date-picker type="datetime" placeholder="截止日期"
+        v-model="deadline"
+        :editable="false" placement="bottom"
+        :options="dateOption">
+      </Date-picker>
+    </Modal>
+    <!-- 查看回收情况 -->
+    <Modal v-model="submitStatisModel"
+      title="查看回收情况"
+      :styles="{top: '40px'}"
+      width="800">
+      <!-- <Form :model="searchForm" inline>
+        <Form-item prop="user" style="width: 150px;">
+          <Select v-model="searchForm.status" placeholder="请选择状态">
+            <Option value="-1">全部</Option>
+            <Option value="1">已完成</Option>
+            <Option value="0">未完成</Option>
+          </Select>
+        </Form-item>
+        <Form-item prop="password" style="width: 250px;">
+          <Select v-model="searchForm.u_class" placeholder="请选择班级">
+            <Option value="all">全部</Option>
+            <Option v-if="classList.length > 0" v-for="(item, index) in classList" 
+              :value="item.u_class"
+              :key="index">
+              {{ item.u_class }}
+            </Option>
+          </Select>
+        </Form-item>
+        <Form-item>
+          <Button type="primary" @click="handleSubmit">检索</Button>
+        </Form-item>
+      </Form> -->
+      <Spin v-if="submitStatisLoading">
+        <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+        <div>数据加载中...</div>
+      </Spin>
+      <Table border :context="self" :columns="submitStatisColumns" :data="submitStatisData"
+        v-if="!submitStatisLoading"></Table>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;" v-if="!submitStatisLoading">
+          <Page :total="total" :current="currentPage" :page-size="pageSize" @on-change="changePage"></Page>
+        </div>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -116,46 +116,19 @@
         submitStatisData: [],
         submitStatisColumns: [
           {
-            title: '用户ID',
-            key: 'u_id',
-            ellipsis: true
-          },
-          {
-            title: '学号',
-            key: 'u_number',
+            title: '手机号',
+            key: 'phone',
             ellipsis: true
           },
           {
             title: '姓名',
-            key: 'u_name',
+            key: 'name',
             ellipsis: true
           },
           {
-            title: '性别',
-            key: 'u_sex',
-            ellipsis: true,
-            render (row, column, index) {
-              const sex = row.u_sex === '1' ? '女' : '男'
-              return `${sex}`
-            }
-          },
-          {
-            title: '班级',
-            key: 'u_class',
-            ellipsis: true,
-            render (row, column, index) {
-              return row.u_class
-            }
-          },
-          {
-            title: '状态',
-            key: 'is_finished',
-            width: '100',
-            render (row, column, index) {
-              const status = row.is_finished === '1' ? '已完成' : '未完成'
-              const color = row.is_finished === '1' ? 'green' : 'red'
-              return `<Tag type="border" color="${color}">${status}</Tag>`.trim()
-            }
+            title: '回答时间',
+            key: 'c_time',
+            ellipsis: true
           }
         ],
         currentId: 0,
@@ -230,7 +203,7 @@
                           <Dropdown-menu slot="list">
                               <Dropdown-item><span @click="preview(${row.n_id})">预览问卷</span></Dropdown-item>
                               <Dropdown-item><span @click="getURL(${row.n_id})">复制地址</span></Dropdown-item>
-                              <Dropdown-item><span @click="submitStatis(${row.n_id})">查看回收情况</span></Dropdown-item>
+                              <Dropdown-item><span @click="submitStatis(${row.n_id}, ${index})">查看回收情况</span></Dropdown-item>
                               <Dropdown-item divided><span  @click="changeTime(${row.n_deadline}, ${row.n_id})">编辑截止时间</span></Dropdown-item>
                               <Dropdown-item ><span @click="changeStatus(${row.n_id},${row.n_status})">${_publishText}</span></Dropdown-item>
                           </Dropdown-menu>
@@ -246,14 +219,12 @@
     methods: {
       // 删除问卷
       remove (index) {
-        console.log(index)
         this.$http.get('/naire/del', {
           params: {
             n_id: this.naireList[index].n_id
           }
         })
           .then((response) => {
-            console.log(response.data.data)
             if (response.data.err === OK) {
               this.$Message.success('删除成功')
               this.naireList.splice(index, 1)
@@ -329,7 +300,7 @@
         this.currentPage = curPage
         this._fetchStatisData()
       },
-      submitStatis (nid) {
+      submitStatis (nid, index) {
         // 查看统计情况
         this.submitStatisModel = true
         this.submitStatisLoading = true
@@ -337,14 +308,12 @@
       },
       // 修改问卷状态
       changeStatus (nId, status) {
-        console.log(nId, status)
         this.$http.get('/naire/changeStatus', {
           params: {
             n_id: nId
           }
         })
           .then((response) => {
-            console.log(response.data.data)
             if (response.data.err === OK && response.data.data > 0) {
               this.$Message.success('问卷更改状态成功')
               this.getData()
@@ -385,7 +354,6 @@
           })
       },
       handleSubmit () {
-        console.log(this.searchForm)
         this._fetchStatisData()
       },
       // 查看回收情况 数据获取
@@ -393,17 +361,14 @@
         this.submitStatisLoading = true
         // 从服务端获取数据
         // 往后台传2各参数，每页显示条数和当前页码
-        this.$http.get('/naire/submitStatis', {
+        this.$http.get('/go/questionUserList', {
           params: {
-            n_id: this.currentId,
+            nid: this.currentId,
             current: this.currentPage,
-            page_size: this.pageSize,
-            status: this.searchForm.status,
-            u_class: this.searchForm.u_class
+            page_size: this.pageSize
           }
         })
           .then((response) => {
-            console.log(response.data)
             this.submitStatisData = response.data.data
             this.total = response.data.total
             this.submitStatisLoading = false
@@ -416,7 +381,6 @@
       _getClass () {
         this.$http.get('/user/getClass')
           .then((response) => {
-            console.log(response.data)
             if (response.data.err === OK) {
               this.classList = response.data.data
             } else {
@@ -436,40 +400,35 @@
 </script>
 
 <style>
-    .naire-btn {
-        padding-bottom: 10px;
+  .naire-btn {
+    padding-bottom: 10px;
+  }
+  .demo-spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
+  @keyframes ani-demo-spin {
+    from {
+        transform: rotate(0deg);
     }
-
-    .demo-spin-icon-load {
-        animation: ani-demo-spin 1s linear infinite;
+    50% {
+        transform: rotate(180deg);
     }
-
-    @keyframes ani-demo-spin {
-        from {
-            transform: rotate(0deg);
-        }
-        50% {
-            transform: rotate(180deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
+    to {
+        transform: rotate(360deg);
     }
-
-    .demo-spin-col {
-        height: 100px;
-        position: relative;
-        border: 1px solid #eee;
-    }
-
-    .qrcode-wrapper {
-        padding: 20px;
-        background-color: #fff;
-    }
-
-    #qrcode {
-        margin: 0 auto;
-        width: 250px;
-        height: 250px;
-    }
+  }
+  .demo-spin-col {
+    height: 100px;
+    position: relative;
+    border: 1px solid #eee;
+  }
+  .qrcode-wrapper {
+    padding: 20px;
+    background-color: #fff;
+  }
+  #qrcode {
+    margin: 0 auto;
+    width: 250px;
+    height: 250px;
+  }
 </style>
