@@ -12,7 +12,13 @@
               PRIMARY KEY (`id`));
               ALTER TABLE `questionare`.`user_question_relation` 
               CHANGE COLUMN `c_time` `c_time` DATETIME NOT NULL DEFAULT current_timestamp COMMENT '创建时间' ;
-            
+        1.4 ALTER TABLE `questionare`.`naire` 
+            CHANGE COLUMN `n_creattime` `n_creat_time` VARCHAR(14) NOT NULL COMMENT '创建时间' ;    
+        1.5
+           ALTER TABLE `questionare`.`naire` 
+           ADD COLUMN `c_time` DATETIME NOT NULL DEFAULT current_timestamp AFTER `n_intro`;
+
+
 
 ##### 2、进入api目录下application/config目录下
 

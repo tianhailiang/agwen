@@ -17,9 +17,9 @@ export const createNaire = ({commit, state}, data) => {
   })
 }
 // 保存问卷
-export const saveNewNaire = ({commit, state}, data) => {
-  return vm.$http.post('/naire/save', {
-    naire: state.naire,
+export const saveNewQuestionnaire = ({commit, state}) => {
+  return vm.$http.post('/go/saveQuestionnaire', {
+    questionnaire: state.naire,
     status: state.status
   })
 }

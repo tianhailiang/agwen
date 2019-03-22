@@ -36,7 +36,7 @@ class Naire_model extends CI_Model
         $result = array(
             "n_id" => $naire[0]["n_id"],
             "title" => $naire[0]["n_title"],
-            "creattime" => $naire[0]["n_creattime"],
+            "n_create_time" => $naire[0]["n_create_time"],
             "deadline" => $naire[0]["n_deadline"],
             "status" => $naire[0]["n_status"],
             "intro" => $naire[0]["n_intro"]
@@ -120,7 +120,7 @@ class Naire_model extends CI_Model
                 'n_title' => trim($naire['title']),
                 'n_status' => $naire['status'],
                 'n_intro' => trim($naire['intro']),
-                'n_creattime' => self::getMillisecond()
+                'n_create_time' => self::getMillisecond()
             );
             $this->db->insert('naire', $insert_naire_data);
             $naire_id = $this->db->insert_id();
@@ -258,7 +258,7 @@ class Naire_model extends CI_Model
         $result["naire"] = array(
             "n_id" => $naire[0]["n_id"],
             "title" => $naire[0]["n_title"],
-            "creattime" => $naire[0]["n_creattime"],
+            "n_create_time" => $naire[0]["n_create_time"],
             "deadline" => $naire[0]["n_deadline"],
             "status" => $naire[0]["n_status"],
             "intro" => $naire[0]["n_intro"]
@@ -392,7 +392,7 @@ class Naire_model extends CI_Model
         $result["naire"] = array(
             "n_id" => $naire[0]["n_id"],
             "title" => $naire[0]["n_title"],
-            "creattime" => $naire[0]["n_creattime"],
+            "n_create_time" => $naire[0]["n_create_time"],
             "deadline" => $naire[0]["n_deadline"],
             "status" => $naire[0]["n_status"],
             "intro" => $naire[0]["n_intro"]
@@ -493,7 +493,7 @@ class Naire_model extends CI_Model
         $result["naire"] = array(
             "n_id" => $naire[0]["n_id"],
             "title" => $naire[0]["n_title"],
-            "creattime" => $naire[0]["n_creattime"],
+            "n_create_time" => $naire[0]["n_create_time"],
             "deadline" => $naire[0]["n_deadline"],
             "status" => $naire[0]["n_status"],
             "intro" => $naire[0]["n_intro"]

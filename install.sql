@@ -33,6 +33,7 @@ CREATE TABLE `admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+--
 -- Dumping data for table `admin`
 --
 
@@ -52,7 +53,7 @@ DROP TABLE IF EXISTS `naire`;
 CREATE TABLE `naire` (
   `n_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '问卷id',
   `a_id` int(11) NOT NULL COMMENT '管理员id',
-  `n_creattime` varchar(14) NOT NULL COMMENT '创建时间',
+  `n_create_time` varchar(14) NOT NULL COMMENT '创建时间',
   `n_deadline` varchar(14) NOT NULL COMMENT '截止时间',
   `n_title` varchar(255) NOT NULL COMMENT '问卷标题',
   `n_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '发布状态',

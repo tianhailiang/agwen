@@ -429,7 +429,7 @@
       },
       // 保存问卷和发布问卷
       saveNaire (message) {
-        let _axios = this.$store.dispatch('saveNewNaire')
+        let _axios = this.$store.dispatch('saveNewQuestionnaire')
         _axios.then((response) => {
           console.log(response.data)
           if (response.data.err === 0) {

@@ -13,7 +13,7 @@
                     {{ statisData.naire.status === 0 ? '未发布' : '已发布' }}
                 </Tag>
             </p>
-            <p>创建日期： {{ statisData.naire.creattime | timeFormat
+            <p>创建日期： {{ statisData.naire.create_time | timeFormat
                 }} | 截止日期：{{ statisData.naire.deadline | timeFormat}}</p>
             <div class="line"></div>
             <div class="source-data-table">
