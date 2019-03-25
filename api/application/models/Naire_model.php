@@ -2,12 +2,14 @@
 
 class Naire_model extends CI_Model
 {
+    public $db2;
 
     public function __construct()
     {
         parent::__construct();
         // Your own constructor code
         $this->load->database();
+        $this->db2 = $this->db;
     }
 
     // 获取问卷详细信息
@@ -95,7 +97,8 @@ class Naire_model extends CI_Model
     {
         // 获取参数 naire id
         // JSON 反序列化
-        $n_id = json_decode($this->input->raw_input_stream, true)['n_id'];
+        $decodeData = json_decode($this->input->raw_input_stream, true);
+        $n_id = isset($decodeData['n_id']) ? $decodeData['n_id'] : "";
 
         if ($n_id == '') {
             return array("err" => 1, "data" => "请传入参数值");
@@ -107,9 +110,6 @@ class Naire_model extends CI_Model
         $options = $this->db->query("select * from options where options.n_id = {$n_id} and del=0")
             ->result_array();
 
-//		echo var_dump($naire);
-//		echo var_dump($questions);
-//		echo var_dump($options);
         if (empty($naire) || empty($questions)) {
             return array("err" => 1, "data" => "未获取到相应问卷");
         }
@@ -122,7 +122,7 @@ class Naire_model extends CI_Model
             "intro" => $naire[0]["n_intro"]
         );
         foreach ($questions as $questionkey => $questionval) {
-//		  echo var_dump($val);
+
             $temp = [];
             foreach ($options as $optionitem => $optionval) {
                 if ($questionval['q_id'] == $optionval['q_id']) {
@@ -171,16 +171,19 @@ class Naire_model extends CI_Model
 
     }
     // 获取问卷列表
-    public function get_naire_list()
+    public function get_naire_list($page,$perPage)
     {
-        $query = $this->db->order_by('n_id desc')->get('naire');
+        $query = $this->db->order_by('n_id desc')->limit($perPage,($page-1)*$perPage)->get('naire');
+
         if (!$query) {
             $err = 1;
         } else {
             $err = 0;
         }
-        return array("err" => $err, "data" => $query->result_array());
+        return array("err" => $err, "data"=>$query->result_array(),'count'=>$this->db->count_all("naire"));
     }
+
+
 
     // 保存问卷
     public function save_naire()
@@ -253,13 +256,9 @@ class Naire_model extends CI_Model
     public function submit_naire()
     {
         $result = json_decode($this->input->raw_input_stream, true)['result'];
-
+        $uid =0 ;
+        $nid = 0;
         foreach ($result as $key => $val) {
-
-//			[n_id] => 12
-//            [q_id] => 41
-//            [o_id] => 52
-//            [o_addition] =>
             // 用户 u_id 获取
             // 如果是多选题，需要再次 foreach
             if (is_array($val['o_id'])) {
@@ -284,13 +283,21 @@ class Naire_model extends CI_Model
                     'o_id' => is_null($val['o_id']) ? '' : $val['o_id'],
                     'o_addtion' => $val['o_addition'],
                 );
+
                 $query = $this->db->insert('result', $result_data);
                 if (!$query) {
                     return array("err" => 1, "data" => '写入数据发生错误');
                 }
             }
-
+            if($val['u_id']>0){
+                $uid =  $val['u_id'];
+            }
+            if($val['n_id']>0){
+                $nid = $val['n_id'];
+            }
         }
+        $sql = "insert into user_question_relation(uid,nid) values($uid,$nid)";
+        $this->db->query($sql);
         return array("err" => 0, "data" => '问卷提交成功');
     }
 
@@ -303,9 +310,6 @@ class Naire_model extends CI_Model
         $this->db->where('n_id', $n_id);
         $this->db->delete($del_tables);
         $result = $this->db->affected_rows();
-
-//		$this->db->query("DELETE FROM naire, question, options, result  WHERE n_id={$n_id}");
-//		$rows = $this->db->affected_rows();
 
         return array('err' => 0, "data" => $result);
     }
