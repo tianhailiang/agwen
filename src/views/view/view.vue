@@ -29,12 +29,9 @@
         <div class="user-info">
           <Alert v-show="!isLogin">在填写表单之前，请先填写用户信息。</Alert>
           <Form ref="userInfo" :model="userInfo" :rules="userInfoRule" inline>
-            <Form-item prop="phoneNumber">
-              <Input v-model="userInfo.phoneNumber" placeholder="请输入手机号"></Input>
+            <Form-item prop="identity">
+              <Input v-model="userInfo.identity" placeholder="请输入手机号"></Input>
             </Form-item>
-            <!-- <Form-item prop="identity">
-              <Input v-model="userInfo.identity" placeholder="请输入身份证号"></Input>
-            </Form-item> -->
             <Form-item>
               <Button type="primary" @click="handleSubmit('userInfo')">点击确认</Button>
             </Form-item>
@@ -83,10 +80,6 @@
             {required: true, message: '请填写用户名', trigger: 'blur'}
           ],
           identity: [
-            {required: true, message: '请填写身份证', trigger: 'blur'},
-            {type: 'string', max: 18, min: 18, message: '身份证长度不正确', trigger: 'blur'}
-          ],
-          phoneNumber: [
             {required: true, message: '请填写手机号', trigger: 'blur'},
             {type: 'string', max: 11, min: 11, message: '手机号长度不正确', trigger: 'blur'}
           ]
