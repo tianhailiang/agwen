@@ -91,6 +91,85 @@ class Naire_model extends CI_Model
 
     }
 
+    public function getNairesNew()
+    {
+        // 获取参数 naire id
+        // JSON 反序列化
+        $n_id = json_decode($this->input->raw_input_stream, true)['n_id'];
+
+        if ($n_id == '') {
+            return array("err" => 1, "data" => "请传入参数值");
+        }
+        $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
+            ->result_array();
+        $questions = $this->db->query("select * from question where question.n_id = {$n_id} and del=0")
+            ->result_array();
+        $options = $this->db->query("select * from options where options.n_id = {$n_id} and del=0")
+            ->result_array();
+
+//		echo var_dump($naire);
+//		echo var_dump($questions);
+//		echo var_dump($options);
+        if (empty($naire) || empty($questions)) {
+            return array("err" => 1, "data" => "未获取到相应问卷");
+        }
+        $result = array(
+            "n_id" => intval($naire[0]["n_id"]),
+            "title" => $naire[0]["n_title"],
+            "n_create_time" => $naire[0]["n_create_time"],
+            "deadline" => $naire[0]["n_deadline"],
+            "status" => $naire[0]["n_status"],
+            "intro" => $naire[0]["n_intro"]
+        );
+        foreach ($questions as $questionkey => $questionval) {
+//		  echo var_dump($val);
+            $temp = [];
+            foreach ($options as $optionitem => $optionval) {
+                if ($questionval['q_id'] == $optionval['q_id']) {
+                    $temp[] = array(
+                        "o_id" => intval($optionval['o_id']),
+                        "content" => $optionval['o_value'],
+                        "isAddition" => $optionval['o_isaddtion'] == "1" ? true : false
+                    );
+                }
+            }
+            if ($questionval["q_type"] == '单选') {
+                $result['topic'][] = array(
+                    "q_id" => intval($questionval["q_id"]),
+                    "question" => $questionval["q_content"],
+                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
+                    "type" => $questionval["q_type"],
+                    "description" => $questionval["q_description"],
+                    "selectContent" => "",
+                    "additional" => "",
+                    "options" => $temp
+                );
+            } else if ($questionval["q_type"] == '多选') {
+                $result['topic'][] = array(
+                    "q_id" => intval($questionval["q_id"]),
+                    "question" => $questionval["q_content"],
+                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
+                    "type" => $questionval["q_type"],
+                    "description" => $questionval["q_description"],
+                    "selectMultipleContent" => array(),
+                    "additional" => "",
+                    "options" => $temp
+                );
+            } else if ($questionval["q_type"] == '文本') {
+                $result['topic'][] = array(
+                    "q_id" => intval($questionval["q_id"]),
+                    "question" => $questionval["q_content"],
+                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
+                    "type" => $questionval["q_type"],
+                    "description" => $questionval["q_description"],
+                    "selectContent" => ""
+                );
+            }
+        }
+
+        return array("err" => 0, "data" => $result);
+
+    }
     // 获取问卷列表
     public function get_naire_list()
     {

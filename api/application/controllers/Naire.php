@@ -10,6 +10,8 @@ class Naire extends CI_Controller
 		$header = $this->input->get_request_header('Authorization', TRUE);
 		list($token) = sscanf($header, 'token %s');
 		if ($header != '' && jwt_helper::validate($token)) {
+		    $page = isset($_GET['page']) ? $_GET['page']:1 ;
+		    $perPage = isset($_GET['perPage']) ?$_GET['perPage'] : 8 ;
 			$result = $this->naire_model->get_naire_list();
 			echo json_encode($result);
 		} else {
@@ -22,7 +24,7 @@ class Naire extends CI_Controller
 	{
 		// 获取参数 naire id
 		$this->load->model('naire_model');
-		$result = $this->naire_model->get_naires();
+		$result = $this->naire_model->getNairesNew();
 		echo json_encode($result);
 	}
 
