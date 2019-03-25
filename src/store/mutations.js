@@ -8,7 +8,6 @@ export default {
     state.naire = JSON.parse(data)
   },
   [types.CREATE_NEW_NAIRE] (state, data) {
-    // state.naire = data.naire
     state.naire = {...state.naire, ...data.naire}
   },
   [types.SAVE_NEW_NAIRE] (state, data) {
@@ -35,11 +34,9 @@ export default {
     state.naire = {...state.naire, title: data}
   },
   [types.UPDATE_INTRO] (state, data) {
-    // state.intro = data
     state.naire = {...state.naire, intro: data}
   },
   [types.UPDATE_DEADLINE] (state, data) {
-    // state.deadline = data
     state.naire = {...state.naire, deadline: data}
   },
   [types.USER_LOGIN] (state, payload) {

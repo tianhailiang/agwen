@@ -40,7 +40,8 @@
                   :disabled="isPreview"
                   class="option-item" :key="option.o_id">
                   <!-- <span>{{option.content}}</span> -->
-                  <!-- <Input v-model="message" style="width: auto;"></Input> -->
+                  <input :value="option.content" style="width: auto;padding-left: 10px;"
+                    @input="updateMessage(index, opIndex, $event)">
                   <div class="option-action" v-show="isPreview" @click="delOption(index, opIndex)">
                     <Icon type="close" size="16"></Icon>
                   </div>

@@ -111,11 +111,8 @@
               identity: this.userInfo.identity.toUpperCase()
             })
               .then((response) => {
-                console.log(response.data.data)
-                // 用户存在,服务器返回 u_id
                 if (response.data.err === 0 && !response.data.data.isFinished) {
                   this.isLogin = true
-                  console.log(response.data.data.u_id)
                   this.userId = response.data.data.u_id
                   this.$Notice.open({
                     title: '欢迎您 ' + response.data.data.name,
@@ -183,7 +180,7 @@
         this.naire.topic.forEach((item, index) => {
           if (item.isRequired) {
             if (item.type === '文本') {
-              if (!item.selectContent.trim().length > 0) {
+              if (!String(item.selectContent).trim().length > 0) {
                 _flag = false
               }
             }
@@ -195,7 +192,7 @@
               if (_isAddtion && !item.additional.trim().length > 0) {
                 _addtion = true
               }
-              if (!item.selectContent.trim().length > 0) {
+              if (!String(item.selectContent).trim().length > 0) {
                 _flag = false
               }
             }
@@ -256,7 +253,6 @@
             result.push(curQues)
           }
         })
-        console.log(result)
         // 防止重复提交
         this.finished = true
         this.$http.post('/naire/submit', {

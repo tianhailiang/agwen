@@ -171,7 +171,7 @@
 
 <script>
   import questionList from '@/components/common/questionList/editQuestionList'
-  import { formatDate } from '../../common/js/utils'
+  // import { formatDate } from '../../common/js/utils'
 
   export default {
     data () {
@@ -189,8 +189,7 @@
           disabledDate (date) {
             return date && date.valueOf() < Date.now() - 86400000
           }
-        },
-        deadline: null
+        }
       }
     },
     computed: {
@@ -211,6 +210,15 @@
         },
         set (value) {
           this.$store.commit('UPDATE_INTRO', value)
+        }
+      },
+      deadline: {
+        get () {
+          return Number(this.$store.getters.naire.deadline)
+        },
+        set (value) {
+          let time = String(new Date(value).getTime())
+          this.$store.commit('UPDATE_DEADLINE', time)
         }
       }
     },
@@ -396,7 +404,6 @@
               this.$store.commit('REQUEST_QUESTION_LIST', {
                 naire: response.data.data
               })
-              this.deadline = formatDate(response.data.data.deadline)
             } else {
               this.$Message.error(response.data.data)
               this.$router.push('/404')
@@ -439,6 +446,8 @@
     },
     components: {
       questionList
+    },
+    mounted () {
     }
   }
 </script>
