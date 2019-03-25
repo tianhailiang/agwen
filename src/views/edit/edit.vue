@@ -29,8 +29,7 @@
           <Date-picker type="datetime" placeholder="截止日期"
             v-model="deadline"
             :editable="false" placement="right-end"
-            :options="dateOption"
-            format>
+            :options="dateOption" format="yyyy-MM-dd HH:mm:ss">
           </Date-picker>
         </Col>
         <Col span="12">
@@ -172,6 +171,7 @@
 
 <script>
   import questionList from '@/components/common/questionList/editQuestionList'
+  import { formatDate } from '../../common/js/utils'
 
   export default {
     data () {
@@ -189,7 +189,8 @@
           disabledDate (date) {
             return date && date.valueOf() < Date.now() - 86400000
           }
-        }
+        },
+        deadline: null
       }
     },
     computed: {
@@ -210,14 +211,6 @@
         },
         set (value) {
           this.$store.commit('UPDATE_INTRO', value)
-        }
-      },
-      deadline: {
-        get () {
-          return this.$store.getters.naire.deadline
-        },
-        set (value) {
-          this.$store.commit('UPDATE_DEADLINE', new Date(value).getTime())
         }
       }
     },
@@ -403,6 +396,7 @@
               this.$store.commit('REQUEST_QUESTION_LIST', {
                 naire: response.data.data
               })
+              this.deadline = formatDate(response.data.data.deadline)
             } else {
               this.$Message.error(response.data.data)
               this.$router.push('/404')

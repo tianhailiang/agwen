@@ -19,7 +19,7 @@
                 <Radio :label="option.o_id" v-for="(option, opIndex) in topic.options" :disabled="isPreview"
                       class="option-item" :key="option.o_id">
                   <input :value="option.content" style="width: auto;padding-left: 10px;"
-                    @input="updateMessage(opIndex, $event)">
+                    @input="updateMessage(index, opIndex, $event)">
                   <Input v-model="topic.additional"
                         placeholder="请输入理由"
                         style="width: 300px"
@@ -74,9 +74,10 @@
           opIndex: opIndex
         })
       },
-      updateMessage (index, e) {
+      updateMessage (index, opIndex, e) {
         this.$store.commit('updateMessage', {
           index: index,
+          opIndex: opIndex,
           value: e.target.value
         })
       }

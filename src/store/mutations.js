@@ -54,7 +54,7 @@ export default {
   },
   [types.updateMessage] (state, data) {
     console.log('naire topic前', state.naire.topic)
-    state.naire.topic[data.index] = data.value
+    state.naire.topic[data.index].options[data.opIndex].content = data.value
     console.log('naire topic后', state.naire.topic)
   }
 }
