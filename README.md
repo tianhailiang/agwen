@@ -14,8 +14,7 @@
               CHANGE COLUMN `c_time` `c_time` DATETIME NOT NULL DEFAULT current_timestamp COMMENT '创建时间' ;
         1.4 ALTER TABLE `questionare`.`naire` 
             CHANGE COLUMN `n_creattime` `n_creat_time` VARCHAR(14) NOT NULL COMMENT '创建时间' ;    
-        1、5 ALTER TABLE `questionare`.`naire` 
-     CHANGE COLUMN `n_creat_time` `n_create_time` VARCHAR(14) NOT NULL COMMENT '创建时间' ;
+      
 
 ALTER TABLE `questionare`.`question` 
 ADD COLUMN `del` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '删除 0位不删除 1为删除' AFTER `u_time`,

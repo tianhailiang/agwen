@@ -35,7 +35,7 @@ class Naire_model extends CI_Model
         $result = array(
             "n_id" => intval($naire["n_id"]),
             "title" => $naire["n_title"],
-            "ctime" => $naire["n_create_time"],
+            "ctime" => $naire["ctime"],
             "deadline" => $naire["n_deadline"],
             "status" => $naire["n_status"],
             "intro" => $naire["n_intro"]
@@ -123,7 +123,6 @@ class Naire_model extends CI_Model
                 'n_title' => trim($naire['title']),
                 'n_status' => $naire['status'],
                 'n_intro' => trim($naire['intro']),
-                'n_create_time' => self::getMillisecond()
             );
             $this->db->insert('naire', $insert_naire_data);
             $naire_id = $this->db->insert_id();
