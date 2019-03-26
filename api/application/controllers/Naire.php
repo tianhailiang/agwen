@@ -12,7 +12,7 @@ class Naire extends CI_Controller
         if ($header != '' && jwt_helper::validate($token) || 2>1) {
 
             $page = isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1;
-            $perPage = isset($_GET['perPage']) ? $_GET['perPage'] : 5;
+            $perPage = isset($_GET['perPage']) ? $_GET['perPage'] : 5000;
             $result = $this->naire_model->get_naire_list($page, $perPage);
             echo json_encode($result);
         } else {
