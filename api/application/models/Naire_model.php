@@ -246,9 +246,9 @@ class Naire_model extends CI_Model
         }
         $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
             ->row_array();
-        $questions = $this->db->query("select * from question where question.n_id = {$n_id}")
+        $questions = $this->db->query("select * from question where question.n_id = {$n_id}  and del=0")
             ->result_array();
-        $options = $this->db->query("select * from options where options.n_id = {$n_id}")
+        $options = $this->db->query("select * from options where options.n_id = {$n_id} and del=0")
             ->result_array();
 
         if (empty($naire) || empty($questions)) {
@@ -265,7 +265,6 @@ class Naire_model extends CI_Model
         );
         // 再遍历题目表，拿到题目id，去遍历选项表
         foreach ($questions as $questionkey => $questionval) {
-//		  echo var_dump($val);
             $temp = []; // 待添加的选项
             $charts = []; // 每个选项的个数
             $addtionContent = []; // 附加理由
