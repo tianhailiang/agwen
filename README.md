@@ -34,10 +34,12 @@
         cd /opt
         克隆仓库 （ 如已存在仓库 可不克隆仓库 )
         git clone http://git.51daxuetong.cn:3000/dxz_php/go_questionnaire.git 
+        cd go_questionnaire
+        如存在  nohup.out
         rm -f nohup.out
   
         进入配置文件目录
-        cd go_questionnaire/config
+        cd config
         复制改名配置文件
         cp conf.yaml.bak conf.yaml
         //修改配置文件 保存退出
