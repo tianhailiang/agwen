@@ -12,87 +12,6 @@ class Naire_model extends CI_Model
         $this->db2 = $this->db;
     }
 
-    // 获取问卷详细信息
-    public function get_naires()
-    {
-        // 获取参数 naire id
-        // JSON 反序列化
-        $n_id = json_decode($this->input->raw_input_stream, true)['n_id'];
-
-        if ($n_id == '') {
-            return array("err" => 1, "data" => "请传入参数值");
-        }
-        $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
-            ->result_array();
-        $questions = $this->db->query("select * from question where question.n_id = {$n_id}")
-            ->result_array();
-        $options = $this->db->query("select * from options where options.n_id = {$n_id}")
-            ->result_array();
-
-//		echo var_dump($naire);
-//		echo var_dump($questions);
-//		echo var_dump($options);
-        if (empty($naire) || empty($questions)) {
-            return array("err" => 1, "data" => "未获取到相应问卷");
-        }
-        $result = array(
-            "n_id" => intval($naire[0]["n_id"]),
-            "title" => $naire[0]["n_title"],
-            "n_create_time" => $naire[0]["n_create_time"],
-            "deadline" => $naire[0]["n_deadline"],
-            "status" => $naire[0]["n_status"],
-            "intro" => $naire[0]["n_intro"]
-        );
-        foreach ($questions as $questionkey => $questionval) {
-//		  echo var_dump($val);
-            $temp = [];
-            foreach ($options as $optionitem => $optionval) {
-                if ($questionval['q_id'] == $optionval['q_id']) {
-                    $temp[] = array(
-                        "o_id" => intval($optionval['o_id']),
-                        "content" => $optionval['o_value'],
-                        "isAddition" => $optionval['o_isaddtion'] == "1" ? true : false
-                    );
-                }
-            }
-            if ($questionval["q_type"] == '单选') {
-                $result['topic'][] = array(
-                    "q_id" => intval($questionval["q_id"]),
-                    "question" => $questionval["q_content"],
-                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
-                    "type" => $questionval["q_type"],
-                    "description" => $questionval["q_description"],
-                    "selectContent" => "",
-                    "additional" => "",
-                    "options" => $temp
-                );
-            } else if ($questionval["q_type"] == '多选') {
-                $result['topic'][] = array(
-                    "q_id" => intval($questionval["q_id"]),
-                    "question" => $questionval["q_content"],
-                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
-                    "type" => $questionval["q_type"],
-                    "description" => $questionval["q_description"],
-                    "selectMultipleContent" => array(),
-                    "additional" => "",
-                    "options" => $temp
-                );
-            } else if ($questionval["q_type"] == '文本') {
-                $result['topic'][] = array(
-                    "q_id" => intval($questionval["q_id"]),
-                    "question" => $questionval["q_content"],
-                    "isRequired" => $questionval["q_isrequire"] == "1" ? true : false,
-                    "type" => $questionval["q_type"],
-                    "description" => $questionval["q_description"],
-                    "selectContent" => ""
-                );
-            }
-        }
-
-        return array("err" => 0, "data" => $result);
-
-    }
-
     public function getNairesNew()
     {
         // 获取参数 naire id
@@ -104,7 +23,7 @@ class Naire_model extends CI_Model
             return array("err" => 1, "data" => "请传入参数值");
         }
         $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
-            ->result_array();
+            ->row_array();
         $questions = $this->db->query("select * from question where question.n_id = {$n_id} and del=0")
             ->result_array();
         $options = $this->db->query("select * from options where options.n_id = {$n_id} and del=0")
@@ -114,12 +33,12 @@ class Naire_model extends CI_Model
             return array("err" => 1, "data" => "未获取到相应问卷");
         }
         $result = array(
-            "n_id" => intval($naire[0]["n_id"]),
-            "title" => $naire[0]["n_title"],
-            "n_create_time" => $naire[0]["n_create_time"],
-            "deadline" => $naire[0]["n_deadline"],
-            "status" => $naire[0]["n_status"],
-            "intro" => $naire[0]["n_intro"]
+            "n_id" => intval($naire["n_id"]),
+            "title" => $naire["n_title"],
+            "ctime" => $naire["n_create_time"],
+            "deadline" => $naire["n_deadline"],
+            "status" => $naire["n_status"],
+            "intro" => $naire["n_intro"]
         );
         foreach ($questions as $questionkey => $questionval) {
 
@@ -180,7 +99,9 @@ class Naire_model extends CI_Model
         } else {
             $err = 0;
         }
-        return array("err" => $err, "data"=>$query->result_array(),'count'=>$this->db->count_all("naire"));
+        $res = $query->result_array();
+
+        return array("err" => $err, "data"=>$res,'count'=>$this->db->count_all("naire"));
     }
 
 
@@ -325,26 +246,23 @@ class Naire_model extends CI_Model
             return array("err" => 1, "data" => "请传入参数值");
         }
         $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
-            ->result_array();
+            ->row_array();
         $questions = $this->db->query("select * from question where question.n_id = {$n_id}")
             ->result_array();
         $options = $this->db->query("select * from options where options.n_id = {$n_id}")
             ->result_array();
 
-//		echo var_dump($naire);
-//		echo var_dump($questions);
-//		echo var_dump($options);
         if (empty($naire) || empty($questions)) {
             return array("err" => 1, "data" => "未获取到相应问卷");
         }
         // 先遍历 问卷表，拿到问卷id
         $result["naire"] = array(
-            "n_id" => $naire[0]["n_id"],
-            "title" => $naire[0]["n_title"],
-            "n_create_time" => $naire[0]["n_create_time"],
-            "deadline" => $naire[0]["n_deadline"],
-            "status" => $naire[0]["n_status"],
-            "intro" => $naire[0]["n_intro"]
+            "n_id" => $naire["n_id"],
+            "title" => $naire["n_title"],
+            "ctime" => $naire["ctime"],
+            "deadline" => $naire["n_deadline"],
+            "status" => $naire["n_status"],
+            "intro" => $naire["n_intro"]
         );
         // 再遍历题目表，拿到题目id，去遍历选项表
         foreach ($questions as $questionkey => $questionval) {
@@ -354,9 +272,8 @@ class Naire_model extends CI_Model
             $addtionContent = []; // 附加理由
             // 用于图表显示
             // 查询该题目总调查人数
-            // select *,count(*) as total from result where n_id = {$naire[0]["n_id"]} and q_id = {$questionval["q_id"]} group by q_id
             $total = 0;
-            $totalResult = $this->db->query("select *,count(*) as total from result where n_id = {$naire[0]['n_id']} and q_id = {$questionval['q_id']} group by q_id");
+            $totalResult = $this->db->query("select *,count(*) as total from result where n_id = {$naire['n_id']} and q_id = {$questionval['q_id']} group by q_id");
 
             if ($totalResult->num_rows() > 0) {
                 $total = $totalResult->result_array()[0]["total"];
@@ -369,14 +286,12 @@ class Naire_model extends CI_Model
                 if ($questionval['q_id'] == $optionval['q_id']) {
 
                     // 查询每个选项在数据库中的个数
-                    // select *,count(*) as total from result where n_id = {$naire[0]['n_id']} and q_id = {$questionval['q_id']} and o_id = {$optionval['o_id']}
-                    $count = $this->db->query("select *,count(*) as total from result where n_id = {$naire[0]['n_id']} and q_id = {$questionval['q_id']} and o_id = {$optionval['o_id']}")->result_array()[0]["total"];
+                    $count = $this->db->query("select *,count(*) as total from result where n_id = {$naire['n_id']} and q_id = {$questionval['q_id']} and o_id = {$optionval['o_id']}")->result_array()[0]["total"];
                     $charts[] = $count;
                     $percent = round(($count / $total * 100), 2) . "%";
                     // 查询附加理由的内容
-                    // select * from result, options where result.n_id = {$naire[0]['n_id']} and result.o_id and options.o_id and result.q_id = {$questionval['q_id']}  and options.o_isaddtion = {$optionval['o_id']}
 
-                    $addtionData = $this->db->query("select * from result, options where result.n_id = {$naire[0]['n_id']} and result.o_id = options.o_id and result.q_id = {$questionval['q_id']}  and options.o_isaddtion = 1 and result.o_id = {$optionval['o_id']}")->result_array();
+                    $addtionData = $this->db->query("select * from result, options where result.n_id = {$naire['n_id']} and result.o_id = options.o_id and result.q_id = {$questionval['q_id']}  and options.o_isaddtion = 1 and result.o_id = {$optionval['o_id']}")->result_array();
                     foreach ($addtionData as $addtionitem => $addtionval) {
                         if ($addtionval["o_addtion"] != "") {
 //							print_r($addtionval["o_addtion"]);
@@ -463,7 +378,7 @@ class Naire_model extends CI_Model
         }
         // 问卷信息
         $naire = $this->db->query("select * from naire where naire.n_id = {$n_id}")
-            ->result_array();
+            ->row_array();
         $questions = $this->db->query("select q_id as value, q_content as label from question where question.n_id = {$n_id} and (question.q_type = '单选' or question.q_type = '多选')")
             ->result_array();
 
@@ -473,12 +388,12 @@ class Naire_model extends CI_Model
 
         // 问卷信息 先遍历 问卷表，拿到问卷id
         $result["naire"] = array(
-            "n_id" => $naire[0]["n_id"],
-            "title" => $naire[0]["n_title"],
-            "n_create_time" => $naire[0]["n_create_time"],
-            "deadline" => $naire[0]["n_deadline"],
-            "status" => $naire[0]["n_status"],
-            "intro" => $naire[0]["n_intro"]
+            "n_id" => $naire["n_id"],
+            "title" => $naire["n_title"],
+            "ctime" => $naire["ctime"],
+            "deadline" => $naire["n_deadline"],
+            "status" => $naire["n_status"],
+            "intro" => $naire["n_intro"]
         );
 
         $result["questions"] = $questions;
@@ -560,11 +475,6 @@ class Naire_model extends CI_Model
         $user_result = $this->db->query("(SELECT users.u_id, question.q_id, question.q_content, question.q_type, options.o_value, result.o_id, result.o_addtion, options.o_isaddtion from result, question, users, options WHERE result.o_id = options.o_id and question.q_id = result.q_id and users.u_id = result.u_id and result.n_id = {$n_id} ) UNION ALL (SELECT users.u_id, question.q_id, question.q_content, question.q_type, options.o_value, result.o_id, result.o_addtion, options.o_isaddtion from result, question, users, options WHERE result.o_id = 0 and question.q_id = result.q_id and users.u_id = result.u_id and result.n_id = {$n_id} GROUP BY result.u_id)")
             ->result_array();
 
-//		echo var_dump($naire);
-//		echo var_dump($questions);
-//		echo var_dump($users);
-//		echo var_dump($user_result);
-
         if (empty($user_result)) {
             return array("err" => 1, "data" => "暂无用户提交问卷");
         }
@@ -576,7 +486,7 @@ class Naire_model extends CI_Model
         $result["naire"] = array(
             "n_id" => $naire[0]["n_id"],
             "title" => $naire[0]["n_title"],
-            "n_create_time" => $naire[0]["n_create_time"],
+            "ctime" => $naire[0]["ctime"],
             "deadline" => $naire[0]["n_deadline"],
             "status" => $naire[0]["n_status"],
             "intro" => $naire[0]["n_intro"]

@@ -161,10 +161,10 @@
           },
           {
             title: '创建时间',
-            key: 'n_create_time',
+            key: 'ctime',
             ellipsis: true,
             render (row, column, index) {
-              return formatDate(row.n_create_time)
+              return row.ctime
             }
           },
           {
