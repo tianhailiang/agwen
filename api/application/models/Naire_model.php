@@ -342,7 +342,7 @@ class Naire_model extends CI_Model
             } else if ($questionval["q_type"] == '文本') {
                 // 拿问答题提交内容
                 $answerList = [];
-                $answerData = $this->db->query("select * from result where n_id = {$naire[0]["n_id"]} and q_id = {$questionval["q_id"]} ")->result_array();
+                $answerData = $this->db->query("select * from result where n_id = {$naire["n_id"]} and q_id = {$questionval["q_id"]} ")->result_array();
                 foreach ($answerData as $item => $val) {
 //					print_r($val["o_addtion"]);
                     $answerList[] = array(
