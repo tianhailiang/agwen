@@ -335,7 +335,7 @@
       addTextarea () {
         this.addTextarea_modal = true
         const TextareaQues = {
-          question: '文本题目',
+          question: '',
           description: '',
           type: '文本',
           isRequired: true,

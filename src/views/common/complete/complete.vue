@@ -27,7 +27,8 @@
   }
 
   .view-layout .main {
-    width: 800px;
+    max-width: 800px;
+    width: 100%;
     height: auto;
     margin: 0 auto;
     padding-bottom: 30px;
